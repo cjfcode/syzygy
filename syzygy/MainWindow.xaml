@@ -1,0 +1,146 @@
+﻿<Window x:Class="syzygy.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:syzygy"
+        xmlns:controls="clr-namespace:syzygy.Controls"
+        mc:Ignorable="d"
+        x:Name="syzygy_mainwindow"
+        Title="syzygy"
+        Height="700"
+        Width="1024"
+        MinHeight="40"
+        MinWidth="200"
+        Background="{StaticResource MainBackgroundBrush}"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        Loaded="MainWindow_Loaded"
+        >
+
+    <!-- 
+    
+    Min height, min width, height, and width are overridden in the MINMAXINFO function in MainWindow.xaml.cs 
+    However, setting the values in the XAML in addition to the WMGetMinMaxInfo function prevents overlap
+    of the min/max/close buttons as the window is resized, allowing the popup menu to be accessible at minimum
+    window size.
+    
+    -->
+
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static SystemCommands.CloseWindowCommand}" CanExecute="CanExecute" Executed="CloseWindow" />
+        <CommandBinding Command="{x:Static SystemCommands.MaximizeWindowCommand}" CanExecute="CanExecute" Executed="MaximizeWindow" />
+        <CommandBinding Command="{x:Static SystemCommands.MinimizeWindowCommand}" CanExecute="CanExecute" Executed="MinimizeWindow" />
+    </Window.CommandBindings>
+
+    <Border>
+        <Border.Style>
+            <Style TargetType="{x:Type Border}">
+                <Setter Property="BorderThickness" Value="1"/>
+                <Style.Triggers>
+                    <!-- Set border size to 0 if window is maximized, this prevents the border from showing when the window is maximized using MINMAXINFO. -->
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}, Path=WindowState}" Value="Maximized">
+                        <Setter Property="BorderThickness" Value="0"/>
+                    </DataTrigger>
+
+                    <!--
+                    
+                    MultiDataTrigger to determine whether or not to inflate the margin on maximize. If autohide taskbar is enabled (signaled from tag state),
+                    don't inflate the margin as WM_GETMINMAXINFO will handle it.
+                    
+                    -->
+                    
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}, Path=WindowState}" Value="Maximized"/>
+                            <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}, Path=Tag}" Value="Inflate"/>
+                        </MultiDataTrigger.Conditions>
+                        <MultiDataTrigger.Setters>
+                            <Setter Property="Margin" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}, Path=MaximizeFix}" />
+                        </MultiDataTrigger.Setters>
+                    </MultiDataTrigger>
+
+                    <!--Active window border color-->
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}, Path=IsActive}" Value="True">
+                        <Setter Property="BorderBrush" Value="{StaticResource WindowBorderBrush}"/>
+                    </DataTrigger>
+
+                    <!--Inactive window border color-->
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}, Path=IsActive}" Value="False">
+                        <Setter Property="BorderBrush" Value="{StaticResource InactiveWindowBrush}" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
+
+        <!-- Outer Grid-->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="75"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <!-- caption -->
+                <RowDefinition Height="auto" />
+                <!-- caption shadow -->
+                <RowDefinition Height="auto" />
+                <!-- 40px menu bar, remove if we decide to go a different direction with the UI design -->
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="593*" />
+                <!--<RowDefinition Height="19*"/>-->
+            </Grid.RowDefinitions>
+
+            <!-- Title Bar -->
+            <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Height="38" VerticalAlignment="Top" Background="{StaticResource MainBackgroundBrush}" Panel.ZIndex="1">
+
+                <!-- Hamburger Menu button, change to program icon? -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <ToggleButton x:Name="HamburgerMenu" Style="{StaticResource HamburgerMenuButton}" FontFamily="{StaticResource Segoe MDL2 Assets}" FontSize="16" Content="&#xE700;"/>
+                    <Popup x:Name="HamburgerMenuPopup" IsOpen="{Binding IsChecked, ElementName=HamburgerMenu, Mode=TwoWay}" AllowsTransparency="True" PopupAnimation="Slide" StaysOpen="False">
+                        <controls:PopupMenu />
+                    </Popup>
+                </StackPanel>
+
+                <!-- Window Buttons -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Command="{x:Static SystemCommands.MinimizeWindowCommand}" Style="{StaticResource WindowChromeButton}" FontFamily="{StaticResource Segoe MDL2 Assets}" FontSize="11" Content="&#xE921;" />
+                    <Button Command="{x:Static SystemCommands.MaximizeWindowCommand}" Style="{StaticResource WindowChromeRestoreButton}" FontFamily="{StaticResource Segoe MDL2 Assets}" FontSize="11" />
+                    <Button Command="{x:Static SystemCommands.CloseWindowCommand}" Style="{StaticResource WindowChromeCloseButton}" FontFamily="{StaticResource Segoe MDL2 Assets}" FontSize="11" Content="&#xE8BB;" />
+                </StackPanel>
+            </Grid>
+
+            <!-- Single pixel border above the Viewbar --><!--
+            <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Height="1" VerticalAlignment="Top" Background="{StaticResource WindowBorderBrush}">-->
+
+            <!--</Grid>-->
+
+            <Grid Grid.Row="2" Grid.Column="0" Height="40" VerticalAlignment="Top" Background="{StaticResource ViewBarBackgroundBrush}">
+
+            </Grid>
+
+            <!--<Grid Grid.Row="3" Grid.Column="0" Height="40" VerticalAlignment="bottom" Background="blue"></Grid>-->
+            <!--used for testing the taskbar overlap issue with autohide taskbar-->
+        </Grid>
+    </Border>
+
+    <!-- TODO (bug fixes):
+    
+        * (1) Check compatibility with Windows 7 - 10 using a Virtual Machine, and test on multiple monitor setups (especially autohide taskbar)
+          (2) Adjust hamburger menu font to be program icon (possibly)
+          (3) Fix autohide taskbar bugs (maybe ...very difficult to fix)
+          (4) Hovering over the window on the taskbar (peek) shows the window with the 8 pixel cutoff until it's clicked.
+              Steam and other programs don't have this glitch. However, Visual Studio and Microsoft Outlook do.
+              It's because the WindowChrome class uses SetWindowRgn, which causes this bug.
+              Probably can't fix this unless you can find a way to make WM_GETMINMAXINFO use the full monitor dimensions.
+    -->
+
+    <!-- TODO (additions):
+         
+          (1) Landing page or welcome popup window on first launch to help users configure games
+    -->
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="0" CornerRadius="0" CaptionHeight="38" UseAeroCaptionButtons="False" ResizeBorderThickness="5" NonClientFrameEdges="None" />
+    </WindowChrome.WindowChrome>
+</Window>

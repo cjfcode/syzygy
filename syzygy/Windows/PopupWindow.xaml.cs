@@ -1,24 +1,24 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
-using syzygy.Properties;
 
-namespace Syzygy
+namespace Syzygy.Windows
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for PopupWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class PopupWindow : Window
     {
-        public MainWindow()
+        public static bool IsOpen { get; private set; }
+
+        public PopupWindow()
         {
             InitializeComponent();
         }
 
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        private void PopupWindow_Loaded(object sender, RoutedEventArgs e)
         {
             IntPtr hWnd = new WindowInteropHelper(this).Handle;
 
@@ -28,25 +28,14 @@ namespace Syzygy
 
             NativeMethods.SetWindowLongPtr(new HandleRef(null, hWnd), NativeMethods.WindowLongFlags.GWL_STYLE, myStyle);
 
-            HwndSource.FromHwnd(hWnd).AddHook(new HwndSourceHook(NativeMethods.WndProc));
+            //HwndSource.FromHwnd(hWnd).AddHook(new HwndSourceHook(WindowChromeHelper.WndProc));
+            IsOpen = true;
         }
 
-        protected override void OnSourceInitialized(EventArgs e)
+        private void PopupWindow_Unloaded(object sender, RoutedEventArgs e)
         {
-            base.OnSourceInitialized(e);
-            this.SetPlacement(Settings.Default.MainWindowPlacement);
+            IsOpen = false;
         }
-
-        ///// <summary>
-        ///// Thickness used to construct a border that will make the window fit perfectly within the screen when the window is maximized
-        ///// </summary>
-        public Thickness MaximizeFix { get; private set; } = new Thickness
-        (
-            SystemParameters.WindowNonClientFrameThickness.Left + SystemParameters.WindowResizeBorderThickness.Left,
-            SystemParameters.WindowNonClientFrameThickness.Top + SystemParameters.WindowResizeBorderThickness.Top - SystemParameters.CaptionHeight - SystemParameters.BorderWidth,
-            SystemParameters.WindowNonClientFrameThickness.Right + SystemParameters.WindowResizeBorderThickness.Right,
-            SystemParameters.WindowNonClientFrameThickness.Bottom + SystemParameters.WindowResizeBorderThickness.Bottom
-        );
 
         private void CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
@@ -78,12 +67,12 @@ namespace Syzygy
         }
         #endregion
 
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            base.OnClosing(e);
-
-            Settings.Default.MainWindowPlacement = this.GetPlacement();
-            Settings.Default.Save();
-        }
+        public Thickness MaximizeFix { get; set; } = new Thickness
+        (
+            SystemParameters.WindowNonClientFrameThickness.Left + SystemParameters.WindowResizeBorderThickness.Left,
+            SystemParameters.WindowNonClientFrameThickness.Top + SystemParameters.WindowResizeBorderThickness.Top - SystemParameters.CaptionHeight - SystemParameters.BorderWidth,
+            SystemParameters.WindowNonClientFrameThickness.Right + SystemParameters.WindowResizeBorderThickness.Right,
+            SystemParameters.WindowNonClientFrameThickness.Bottom + SystemParameters.WindowResizeBorderThickness.Bottom
+        );
     }
 }

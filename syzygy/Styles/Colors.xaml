@@ -44,5 +44,21 @@
     <!-- Viewbar Background Color-->
     <Color x:Key="ViewBarBackgroundColor">#1A1A1A</Color>
     <SolidColorBrush x:Key="ViewBarBackgroundBrush" Color="{StaticResource ViewBarBackgroundColor}"/>
-    
+
+    <!-- Default Popup Background Color-->
+    <Color x:Key="DefaultPopupBackgroundColor">#2D4D7A</Color>
+    <SolidColorBrush x:Key="DefaultPopupBackgroundBrush" Color="{StaticResource DefaultPopupBackgroundColor}"/>
+
+    <!-- Custom Checkbox Foreground Color-->
+    <Color x:Key="CustomCheckBoxForegroundColor">#FFFFFF</Color>
+    <SolidColorBrush x:Key="CustomCheckBoxForegroundBrush" Color="{StaticResource CustomCheckBoxForegroundColor}"/>
+
+    <!-- Custom Popup Checkbox Background Color-->
+    <Color x:Key="CustomCheckBoxBackgroundColor">#6DB509</Color>
+    <SolidColorBrush x:Key="CustomCheckBoxBackgroundBrush" Color="{StaticResource CustomCheckBoxBackgroundColor}"/>
+
+    <!-- Custom Popup Checkbox Stroke Color-->
+    <Color x:Key="CustomCheckBoxStrokeColor">#094BB5</Color>
+    <SolidColorBrush x:Key="CustomCheckBoxStrokeBrush" Color="{StaticResource CustomCheckBoxStrokeColor}"/>
+
 </ResourceDictionary>

@@ -86,10 +86,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="NativeMethods.cs" />
+    <Compile Include="WindowPlacementManager.cs" />
+    <Compile Include="Windows\PopupWindow.xaml.cs">
+      <DependentUpon>PopupWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\PopupMenu.xaml.cs">
       <DependentUpon>PopupMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WindowChromeHelper.cs" />
+    <Page Include="Windows\PopupWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\PopupMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

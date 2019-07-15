@@ -1,0 +1,98 @@
+﻿<Window x:Class="Syzygy.Windows.PopupWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Syzygy.Windows"
+        mc:Ignorable="d"
+        Title="MainPopup" Height="450" Width="800"
+        WindowStyle="None"
+        WindowStartupLocation="CenterOwner"
+        Topmost="False"
+        ShowInTaskbar="True"
+        Background="{StaticResource DefaultPopupBackgroundBrush}"
+        Loaded="PopupWindow_Loaded"
+        Unloaded="PopupWindow_Unloaded"
+        >
+
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static SystemCommands.CloseWindowCommand}" CanExecute="CanExecute" Executed="CloseWindow" />
+        <CommandBinding Command="{x:Static SystemCommands.MaximizeWindowCommand}" CanExecute="CanExecute" Executed="MaximizeWindow" />
+        <CommandBinding Command="{x:Static SystemCommands.MinimizeWindowCommand}" CanExecute="CanExecute" Executed="MinimizeWindow" />
+    </Window.CommandBindings>
+
+    <Border>
+        <Border.Style>
+            <Style TargetType="{x:Type Border}">
+                <Setter Property="BorderThickness" Value="1"/>
+                <Style.Triggers>
+                    <!--Set border size to 0 if window is maximized, this prevents the border from showing when the window is maximized using MINMAXINFO.-->
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:PopupWindow}}, Path=WindowState}" Value="Maximized">
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Margin" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:PopupWindow}}, Path=MaximizeFix}" />
+                    </DataTrigger>
+            
+                    <!--MultiDataTrigger to determine whether or not to inflate the margin on maximize. If autohide taskbar is enabled (signaled from tag state),
+                    don't inflate the margin as WM_GETMINMAXINFO will handle it.-->
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:PopupWindow}}, Path=WindowState}" Value="Maximized"/>
+                            <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:PopupWindow}}, Path=Tag}" Value="Inflate"/>
+                        </MultiDataTrigger.Conditions>
+                        <MultiDataTrigger.Setters>
+                            <Setter Property="Margin" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:PopupWindow}}, Path=MaximizeFix}" />
+                        </MultiDataTrigger.Setters>
+                    </MultiDataTrigger>
+
+                    
+                    <!--Active window border color-->
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:PopupWindow}}, Path=IsActive}" Value="True">
+                        <Setter Property="BorderBrush" Value="{StaticResource WindowBorderBrush}" />
+                    </DataTrigger>
+
+                    <!--Inactive window border color-->
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:PopupWindow}}, Path=IsActive}" Value="False">
+                        <Setter Property="BorderBrush" Value="{StaticResource InactiveWindowBrush}" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
+        
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="38" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Title Bar -->
+            <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Height="38" VerticalAlignment="Top" Background="{StaticResource DefaultPopupBackgroundBrush}" Panel.ZIndex="1">
+                
+                <!-- Window Buttons -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Command="{x:Static SystemCommands.MinimizeWindowCommand}" Style="{StaticResource WindowChromeButton}" FontFamily="{StaticResource Segoe MDL2 Assets}" FontSize="11" Content="&#xE921;" />
+                    <Button Command="{x:Static SystemCommands.MaximizeWindowCommand}" Style="{StaticResource WindowChromeRestoreButton}" FontFamily="{StaticResource Segoe MDL2 Assets}" FontSize="11" />
+                    <Button Command="{x:Static SystemCommands.CloseWindowCommand}" Style="{StaticResource WindowChromeCloseButton}" FontFamily="{StaticResource Segoe MDL2 Assets}" FontSize="11" Content="&#xE8BB;" />
+                </StackPanel>
+
+            </Grid>
+
+            <!-- About Window Main Content -->
+            <Grid Grid.Row="1" Margin="10, 10, 10, 10">
+                
+            </Grid>
+            
+            <Grid Grid.Row="2" Margin="0, 0, 50, 0">
+                <!--<CheckBox x:Name="MainPopupCheckBox" FlowDirection="RightToLeft" />-->
+            </Grid>
+        </Grid>
+    </Border>
+    
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="0" CornerRadius="0" CaptionHeight="38" UseAeroCaptionButtons="False" ResizeBorderThickness="5" NonClientFrameEdges="None" />
+    </WindowChrome.WindowChrome>
+</Window>

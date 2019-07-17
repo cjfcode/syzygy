@@ -86,15 +86,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="NativeMethods.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="WindowPlacementManager.cs" />
-    <Compile Include="Windows\PopupWindow.xaml.cs">
+    <Compile Include="Views\PopupWindow.xaml.cs">
       <DependentUpon>PopupWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\PopupMenu.xaml.cs">
       <DependentUpon>PopupMenu.xaml</DependentUpon>
     </Compile>
-    <Page Include="Windows\PopupWindow.xaml">
+    <Page Include="Views\PopupWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -102,7 +104,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -110,7 +112,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -168,6 +170,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Models\" />
     <Folder Include="Resources\Images\" />
   </ItemGroup>
   <ItemGroup>

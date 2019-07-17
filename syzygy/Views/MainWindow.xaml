@@ -18,7 +18,11 @@
         Loaded="MainWindow_Loaded"
         Tag="Inflate"
         >
-
+    
+    <Window.DataContext>
+        <local:MainWindowViewModel />
+    </Window.DataContext>
+    
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static SystemCommands.CloseWindowCommand}" CanExecute="CanExecute" Executed="CloseWindow" />
         <CommandBinding Command="{x:Static SystemCommands.MaximizeWindowCommand}" CanExecute="CanExecute" Executed="MaximizeWindow" />
@@ -33,7 +37,7 @@
                     <!-- Set border size to 0 if window is maximized, this prevents the border from showing when the window is maximized using MINMAXINFO. -->
                     <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}, Path=WindowState}" Value="Maximized">
                         <Setter Property="BorderThickness" Value="0"/>
-                        <Setter Property="Margin" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}, Path=MaximizeFix}" />
+                        <Setter Property="Margin" Value="{Binding MaximizeFix, Mode=OneWay}" />
                     </DataTrigger>
                  
                     <!--Active window border color-->
@@ -72,9 +76,27 @@
 
                 <!-- Hamburger Menu button, change to program icon? -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                    <ToggleButton x:Name="HamburgerMenu" Style="{StaticResource HamburgerMenuButton}" FontFamily="{StaticResource Segoe MDL2 Assets}" FontSize="16" Content="&#xE700;"/>
-                    <Popup x:Name="HamburgerMenuPopup" IsOpen="{Binding IsChecked, ElementName=HamburgerMenu, Mode=TwoWay}" AllowsTransparency="True" PopupAnimation="Fade" StaysOpen="False">
-                        <controls:PopupMenu />
+                    <ToggleButton x:Name="HamburgerMenu" Style="{StaticResource HamburgerMenuButton}" IsChecked="{Binding IsPopupOpen, Mode=TwoWay}" FontFamily="{StaticResource Segoe MDL2 Assets}" FontSize="16" Content="&#xE700;"/>
+                    
+                    <Popup x:Name="HamburgerMenuPopup" IsOpen="{Binding IsPopupOpen, Mode=TwoWay}" AllowsTransparency="True" PopupAnimation="Fade" StaysOpen="False">
+                        
+                         <!--Popup Content--> 
+                        <Border BorderThickness="1" BorderBrush="{StaticResource WindowBorderBrush}">
+                            <Grid Background="{StaticResource MainBackgroundBrush}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+
+                                <Button Grid.Row="0" Style="{StaticResource PopupMenuButton}" Content="Add Game" Command="{Binding AddGameMenuItemClick}" />
+                                <Button Grid.Row="1" Style="{StaticResource PopupMenuButton}" Content="Settings" Command="{Binding SettingsMenuItemClick}"/>
+                                <Button Grid.Row="2" Style="{StaticResource PopupMenuButton}" Content="About" Command="{Binding AboutMenuItemClick}" />
+                                <Button Grid.Row="3" Style="{StaticResource PopupMenuButton}" Content="Quit" Command="{Binding QuitMenuItemClick}" />
+                            </Grid>
+                        </Border>
+                        
                     </Popup>
                 </StackPanel>
 
@@ -86,17 +108,9 @@
                 </StackPanel>
             </Grid>
 
-            <!-- Single pixel border above the Viewbar --><!--
-            <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Height="1" VerticalAlignment="Top" Background="{StaticResource WindowBorderBrush}">-->
-
-            <!--</Grid>-->
-
             <Grid Grid.Row="2" Grid.Column="0" Height="40" VerticalAlignment="Top" Background="{StaticResource ViewBarBackgroundBrush}">
 
             </Grid>
-            
-            <!--<Grid Grid.Row="3" Grid.Column="0" Height="40" VerticalAlignment="bottom" Background="blue"></Grid>-->
-            <!--used for testing the taskbar overlap issue with autohide taskbar-->
         </Grid>
     </Border>
 

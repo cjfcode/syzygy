@@ -1,24 +1,25 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
+using Syzygy.Properties;
 
-namespace Syzygy.Windows
+namespace Syzygy
 {
     /// <summary>
-    /// Interaction logic for PopupWindow.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class PopupWindow : Window
+    public partial class MainWindow : Window
     {
-        public static bool IsOpen { get; private set; }
-
-        public PopupWindow()
+        public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void PopupWindow_Loaded(object sender, RoutedEventArgs e)
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             IntPtr hWnd = new WindowInteropHelper(this).Handle;
 
@@ -28,13 +29,13 @@ namespace Syzygy.Windows
 
             NativeMethods.SetWindowLongPtr(new HandleRef(null, hWnd), NativeMethods.WindowLongFlags.GWL_STYLE, myStyle);
 
-            //HwndSource.FromHwnd(hWnd).AddHook(new HwndSourceHook(WindowChromeHelper.WndProc));
-            IsOpen = true;
+            HwndSource.FromHwnd(hWnd).AddHook(new HwndSourceHook(NativeMethods.WndProc));
         }
 
-        private void PopupWindow_Unloaded(object sender, RoutedEventArgs e)
+        protected override void OnSourceInitialized(EventArgs e)
         {
-            IsOpen = false;
+            base.OnSourceInitialized(e);
+            this.SetPlacement(Settings.Default.MainWindowPlacement);
         }
 
         private void CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -67,12 +68,12 @@ namespace Syzygy.Windows
         }
         #endregion
 
-        public Thickness MaximizeFix { get; set; } = new Thickness
-        (
-            SystemParameters.WindowNonClientFrameThickness.Left + SystemParameters.WindowResizeBorderThickness.Left,
-            SystemParameters.WindowNonClientFrameThickness.Top + SystemParameters.WindowResizeBorderThickness.Top - SystemParameters.CaptionHeight - SystemParameters.BorderWidth,
-            SystemParameters.WindowNonClientFrameThickness.Right + SystemParameters.WindowResizeBorderThickness.Right,
-            SystemParameters.WindowNonClientFrameThickness.Bottom + SystemParameters.WindowResizeBorderThickness.Bottom
-        );
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+
+            Settings.Default.MainWindowPlacement = this.GetPlacement();
+            Settings.Default.Save();
+        }
     }
 }

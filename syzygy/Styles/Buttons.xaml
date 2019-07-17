@@ -66,11 +66,12 @@
     </Style>
 
     <!-- PopupMenu Button -->
-    <Style TargetType="{x:Type Button}" x:Key="PopupMenuButton" BasedOn="{StaticResource WindowChromeButton}">
+    <Style TargetType="{x:Type Button}" x:Key="PopupMenuButton">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="Padding" Value="5" />
-
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{StaticResource CaptionFontBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -80,6 +81,35 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+
+        <Style.Triggers>
+            <!-- Set the color of the buttons when the MainWindow is active -->
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}, Path=IsActive}" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource CaptionFontBrush}" />
+            </DataTrigger>
+
+            <!-- Set the color of the buttons when the MainWindow is inactive -->
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}, Path=IsActive}" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource InactiveWindowButtonBrush}" />
+            </DataTrigger>
+
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource CaptionButtonDownBrush}" />
+
+                 <!--Set the color of the Foreground on mouse over, this preserves mouseover color when the window is inactive--> 
+                <Setter Property="Foreground" Value="{StaticResource CaptionFontBrush}" />
+            </Trigger>
+
+            <!--<MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding RelativeSource={RelativeSource self}, Path=IsMouseOver}"  Value="True" />
+                    <Condition Binding="{Binding RelativeSource={RelativeSource self}, Path=IsPressed}"  Value="False" />
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter Property="Background" Value="{StaticResource CaptionButtonMouseOverBrush}" />
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>-->
+        </Style.Triggers>
     </Style>
 
     <!--Hamburger Menu Button--> 

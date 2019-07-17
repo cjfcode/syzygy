@@ -4,10 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Syzygy.Controls"
+             xmlns:nsz="clr-namespace:Syzygy"
+             x:Name="PopupMenus"
              mc:Ignorable="d"
              Background="{StaticResource MainBackgroundBrush}"
              d:DesignWidth="270
              ">
+    
+    <UserControl.DataContext>
+        <nsz:MainWindowViewModel />
+    </UserControl.DataContext>
+    
     <Border BorderThickness="1" BorderBrush="{StaticResource WindowBorderBrush}">
         <Grid>
             <Grid.RowDefinitions>
@@ -17,11 +24,11 @@
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
 
-            <Button Grid.Row="0" Style="{StaticResource PopupMenuButton}" Content="Add Game" Click="AddGame_Click" />
-            <Button Grid.Row="1" Style="{StaticResource PopupMenuButton}" Content="Settings" Click="Settings_Click" />
+            <Button Grid.Row="0" Style="{StaticResource PopupMenuButton}" Content="Add Game" Click="AddGame_Click"/>
+            <Button Grid.Row="1" Style="{StaticResource PopupMenuButton}" Content="Settings" Click="Settings_Click"/>
             <Button Grid.Row="2" Style="{StaticResource PopupMenuButton}" Content="About" Click="About_Click" />
             <Button Grid.Row="3" Style="{StaticResource PopupMenuButton}" Content="Quit" Click="Quit_Click" />
-
         </Grid>
     </Border>
+    
 </UserControl>

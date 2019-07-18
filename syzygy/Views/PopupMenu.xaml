@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="Syzygy.PopupMenu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Syzygy"
+             mc:Ignorable="d"
+             Background="{StaticResource MainBackgroundBrush}"
+             d:DesignWidth="270"
+             >
+    
+    <UserControl.DataContext>
+        <local:PopupMenuViewModel/>
+    </UserControl.DataContext>
+
+    <Border BorderThickness="1" BorderBrush="{StaticResource WindowBorderBrush}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <Button Grid.Row="0" Style="{StaticResource PopupMenuButton}" Content="Add Game" Command="{Binding AddGameMenuItemCommand}"/>
+            <Button Grid.Row="1" Style="{StaticResource PopupMenuButton}" Content="Settings" Command="{Binding SettingsMenuItemCommand}"/>
+            <Button Grid.Row="2" Style="{StaticResource PopupMenuButton}" Content="Toggle Status Bar" Command="{Binding StatusBarMenuItemCommand}"/>
+            <Button Grid.Row="3" Style="{StaticResource PopupMenuButton}" Content="About" Command="{Binding AboutMenuItemCommand}"/>
+            <Button Grid.Row="4" Style="{StaticResource PopupMenuButton}" Content="Quit" Command="{Binding QuitMenuItemCommand}"/>
+        </Grid>
+    </Border>
+    
+</UserControl>

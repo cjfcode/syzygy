@@ -209,7 +209,6 @@ namespace Syzygy
             Marshal.StructureToPtr(mmi, lParam, true);
         }
 
-
         public static IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             if (msg == WindowsMessage.WM_INSTANCEATTEMPT)
@@ -352,7 +351,7 @@ namespace Syzygy
             DWLP_DLGPROC = 0x4
         }
 
-        public readonly struct WindowsMessage
+        public struct WindowsMessage
         {
             public static int WM_CREATE = 0x0001;
             public static int WM_GETMINMAXINFO = 0x0024;

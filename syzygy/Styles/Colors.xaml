@@ -5,59 +5,67 @@
     <Color x:Key="WindowBorderColor">#0F0F0F</Color>
     <SolidColorBrush x:Key="WindowBorderBrush" Color="{StaticResource WindowBorderColor}"/>
 
-    <!-- Color of the Inactive Window Border-->
+    <!-- Inactive Window Border Color -->
     <Color x:Key="InactiveWindowColor">#262626</Color>
     <SolidColorBrush x:Key="InactiveWindowBrush" Color="{StaticResource InactiveWindowColor}" />
 
-    <!-- Color of the Inactive Window Buttons-->
+    <!-- Inactive Window Button Color -->
     <Color x:Key="InactiveWindowButtonColor">#838383</Color>
     <SolidColorBrush x:Key="InactiveWindowButtonBrush" Color="{StaticResource InactiveWindowButtonColor}" />
 
-    <!-- Color of the main window of the application -->
+    <!-- Main Window Background Color -->
     <Color x:Key="MainBackgroundColor">#1A1A1A</Color>
     <SolidColorBrush x:Key="MainBackgroundBrush" Color="{StaticResource MainBackgroundColor}"/>
 
-    <!-- Color of the caption area (title bar) -->
+    <!-- Caption Color -->
     <Color x:Key="CaptionColor">#141414</Color>
     <SolidColorBrush x:Key="CaptionBrush" Color="{StaticResource CaptionColor}"/>
     
-    <!-- Color of the caption area font (title bar) -->
+    <!-- Caption Font Color -->
     <Color x:Key="CaptionFontColor">White</Color>
     <SolidColorBrush x:Key="CaptionFontBrush" Color="{StaticResource CaptionFontColor}"/>
 
-    <!-- MouseOver caption button -->
+    <!-- Caption Button Mouse Over Color -->
     <Color x:Key="CaptionButtonMouseOverColor">#1F1F1F</Color>
     <SolidColorBrush x:Key="CaptionButtonMouseOverBrush" Color="{StaticResource CaptionButtonMouseOverColor}"/>
 
-    <!-- MouseOver caption close button -->
+    <!-- Caption Close Button Mouse Over Color -->
     <Color x:Key="CaptionCloseButtonMouseOverColor">#E81223</Color>
     <SolidColorBrush x:Key="CaptionCloseButtonMouseOverBrush" Color="{StaticResource CaptionCloseButtonMouseOverColor}"/>
 
-    <!-- Clicked caption button -->
+    <!-- Caption Button Clicked Color -->
     <Color x:Key="CaptionButtonDownColor">#2B2B2B</Color>
     <SolidColorBrush x:Key="CaptionButtonDownBrush" Color="{StaticResource CaptionButtonDownColor}"/>
     
-    <!-- Clicked caption close button -->
+    <!-- Caption Close Button Clicked Color -->
     <Color x:Key="CaptionCloseButtonDownColor">#F17079</Color>
     <SolidColorBrush x:Key="CaptionCloseButtonDownBrush" Color="{StaticResource CaptionCloseButtonDownColor}"/>
     
-    <!-- Viewbar Background Color-->
+    <!-- Status Bar Active Color -->
+    <Color x:Key="StatusBarActiveColor">#222222</Color>
+    <SolidColorBrush x:Key="StatusBarActiveBrush" Color="{StaticResource StatusBarActiveColor}"/>
+
+    <!-- Status Bar Font Color -->
+    <Color x:Key="StatusBarFontColor">White</Color>
+    <SolidColorBrush x:Key="StatusBarTextBrush" Color="{StaticResource StatusBarFontColor}"/>
+
+    <!-- Viewbar Background Color -->
     <Color x:Key="ViewBarBackgroundColor">#1A1A1A</Color>
     <SolidColorBrush x:Key="ViewBarBackgroundBrush" Color="{StaticResource ViewBarBackgroundColor}"/>
 
-    <!-- Default Popup Background Color-->
+    <!-- Default Popup Background Color -->
     <Color x:Key="DefaultPopupBackgroundColor">#2D4D7A</Color>
     <SolidColorBrush x:Key="DefaultPopupBackgroundBrush" Color="{StaticResource DefaultPopupBackgroundColor}"/>
 
-    <!-- Custom Checkbox Foreground Color-->
+    <!-- Custom Checkbox Foreground Color -->
     <Color x:Key="CustomCheckBoxForegroundColor">#FFFFFF</Color>
     <SolidColorBrush x:Key="CustomCheckBoxForegroundBrush" Color="{StaticResource CustomCheckBoxForegroundColor}"/>
 
-    <!-- Custom Popup Checkbox Background Color-->
+    <!-- Custom Popup Checkbox Background Color -->
     <Color x:Key="CustomCheckBoxBackgroundColor">#6DB509</Color>
     <SolidColorBrush x:Key="CustomCheckBoxBackgroundBrush" Color="{StaticResource CustomCheckBoxBackgroundColor}"/>
 
-    <!-- Custom Popup Checkbox Stroke Color-->
+    <!-- Custom Popup Checkbox Stroke Color -->
     <Color x:Key="CustomCheckBoxStrokeColor">#094BB5</Color>
     <SolidColorBrush x:Key="CustomCheckBoxStrokeBrush" Color="{StaticResource CustomCheckBoxStrokeColor}"/>
 

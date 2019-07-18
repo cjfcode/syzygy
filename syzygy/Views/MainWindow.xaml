@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Syzygy"
-        xmlns:controls="clr-namespace:Syzygy.Controls"
         mc:Ignorable="d"
         x:Name="syzygy_mainwindow"
         Title="syzygy"
@@ -23,12 +22,6 @@
         <local:MainWindowViewModel />
     </Window.DataContext>
     
-    <Window.CommandBindings>
-        <CommandBinding Command="{x:Static SystemCommands.CloseWindowCommand}" CanExecute="CanExecute" Executed="CloseWindow" />
-        <CommandBinding Command="{x:Static SystemCommands.MaximizeWindowCommand}" CanExecute="CanExecute" Executed="MaximizeWindow" />
-        <CommandBinding Command="{x:Static SystemCommands.MinimizeWindowCommand}" CanExecute="CanExecute" Executed="MinimizeWindow" />
-    </Window.CommandBindings>
-
     <Border>
         <Border.Style>
             <Style TargetType="{x:Type Border}">
@@ -76,35 +69,19 @@
 
                 <!-- Hamburger Menu button, change to program icon? -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                    <ToggleButton x:Name="HamburgerMenu" Style="{StaticResource HamburgerMenuButton}" IsChecked="{Binding IsPopupOpen, Mode=TwoWay}" FontFamily="{StaticResource Segoe MDL2 Assets}" FontSize="16" Content="&#xE700;"/>
-                    
-                    <Popup x:Name="HamburgerMenuPopup" IsOpen="{Binding IsPopupOpen, Mode=TwoWay}" AllowsTransparency="True" PopupAnimation="Fade" StaysOpen="False">
-                        
-                         <!--Popup Content--> 
-                        <Border BorderThickness="1" BorderBrush="{StaticResource WindowBorderBrush}">
-                            <Grid Background="{StaticResource MainBackgroundBrush}">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                </Grid.RowDefinitions>
+                    <ToggleButton x:Name="HamburgerMenu" Style="{StaticResource HamburgerMenuButton}" IsChecked="{Binding ElementName=popupMenu, Path=DataContext.IsPopupOpen, Mode=TwoWay}" FontFamily="{StaticResource Segoe MDL2 Assets}" FontSize="16" Content="&#xE700;"/>
 
-                                <Button Grid.Row="0" Style="{StaticResource PopupMenuButton}" Content="Add Game" Command="{Binding AddGameMenuItemClick}" />
-                                <Button Grid.Row="1" Style="{StaticResource PopupMenuButton}" Content="Settings" Command="{Binding SettingsMenuItemClick}"/>
-                                <Button Grid.Row="2" Style="{StaticResource PopupMenuButton}" Content="About" Command="{Binding AboutMenuItemClick}" />
-                                <Button Grid.Row="3" Style="{StaticResource PopupMenuButton}" Content="Quit" Command="{Binding QuitMenuItemClick}" />
-                            </Grid>
-                        </Border>
-                        
+                    <!-- can add  AllowsTransparency="True" PopupAnimation="Fade" to get a fade transition -->
+                    <Popup x:Name="HamburgerMenuPopup" IsOpen="{Binding ElementName=popupMenu, Path=DataContext.IsPopupOpen, Mode=TwoWay}" StaysOpen="False">
+                        <local:PopupMenu x:Name="popupMenu" />
                     </Popup>
                 </StackPanel>
 
                 <!-- Window Buttons -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Command="{x:Static SystemCommands.MinimizeWindowCommand}" Style="{StaticResource WindowChromeButton}" FontFamily="{StaticResource Segoe MDL2 Assets}" FontSize="11" Content="&#xE921;" />
-                    <Button Command="{x:Static SystemCommands.MaximizeWindowCommand}" Style="{StaticResource WindowChromeRestoreButton}" FontFamily="{StaticResource Segoe MDL2 Assets}" FontSize="11" />
-                    <Button Command="{x:Static SystemCommands.CloseWindowCommand}" Style="{StaticResource WindowChromeCloseButton}" FontFamily="{StaticResource Segoe MDL2 Assets}" FontSize="11" Content="&#xE8BB;" />
+                    <Button Command="{Binding MinimizeMainWindow}" Style="{StaticResource WindowChromeButton}" FontFamily="{StaticResource Segoe MDL2 Assets}" FontSize="11" Content="&#xE921;" />
+                    <Button Command="{Binding MaximizeMainWindow}" Style="{StaticResource WindowChromeRestoreButton}" FontFamily="{StaticResource Segoe MDL2 Assets}" FontSize="11" />
+                    <Button Command="{Binding CloseMainWindow}" Style="{StaticResource WindowChromeCloseButton}" FontFamily="{StaticResource Segoe MDL2 Assets}" FontSize="11" Content="&#xE8BB;" />
                 </StackPanel>
             </Grid>
 

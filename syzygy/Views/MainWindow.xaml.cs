@@ -1,9 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Interop;
 using Syzygy.Properties;
 
@@ -37,36 +35,6 @@ namespace Syzygy
             base.OnSourceInitialized(e);
             this.SetPlacement(Settings.Default.MainWindowPlacement);
         }
-
-        private void CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-
-        #region CAPTION_AREA_BUTTON_ACTIONS
-        private void CloseWindow(object sender, ExecutedRoutedEventArgs e)
-        {
-            SystemCommands.CloseWindow(this);
-        }
-
-        private void MaximizeWindow(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (WindowState == WindowState.Normal)
-            {
-                SystemCommands.MaximizeWindow(this);
-
-            }
-            else if (WindowState == WindowState.Maximized)
-            {
-                SystemCommands.RestoreWindow(this);
-            }
-        }
-
-        private void MinimizeWindow(object sender, ExecutedRoutedEventArgs e)
-        {
-            SystemCommands.MinimizeWindow(this);
-        }
-        #endregion
 
         protected override void OnClosing(CancelEventArgs e)
         {
